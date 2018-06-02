@@ -8,6 +8,7 @@ namespace Event_Bot.Models
 {
     public enum ShirtSizeOptions
     {
+        [Terms("xs", "s", "m", "l", "xl")]
         ExtraSmall,
         Small,
         Medium,
@@ -23,13 +24,14 @@ namespace Event_Bot.Models
         Hat
     }
 
+    [Serializable]
     public class EventRegistration
     {
         public string Email { get; set; }
         public string FullName { get; set; }
         public ShirtSizeOptions? ShirtSize { get; set; }
-        public List<FreeBieOptions> FreeBies { get; set; }
-        public DateTime? CollectionDate { get; set; }
+        public List<FreeBieOptions> Freebies { get; set; }
+        public string CollectionDate { get; set; }
 
         public static IForm<EventRegistration> BuildForm()
         {

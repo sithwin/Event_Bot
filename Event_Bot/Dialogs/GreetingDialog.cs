@@ -15,9 +15,22 @@ namespace Event_Bot.Dialogs
         public async Task StartAsync(IDialogContext context)
         {
             await context.PostAsync("Hi, I'm Event Bot!");
+            await Respond(context);
             context.Wait(MessageReceiveAsync);
         }
 
+        private async Task Respond(IDialogContext context)
+        {
+            var userName = string.Empty;
+            context.UserData.TryGetValue<string>("Name", out userName);
+
+            if (string.IsNullOrEmpty(userName))
+            {
+                await context.PostAsync("What is your name?");
+                context.UserData.SetValue<bool>("GetName", true);
+            }
+        }
+        
         private async Task MessageReceiveAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
@@ -34,16 +47,8 @@ namespace Event_Bot.Dialogs
                 context.UserData.SetValue<bool>("GetName", false);
             }
 
-            if (string.IsNullOrEmpty(userName))
-            {
-                await context.PostAsync("What is your name?");
-                context.UserData.SetValue<bool>("GetName", true);
-            }
-            else
-            {
-                await context.PostAsync(String.Format("Hi {0}, How can I help you today?", userName));
-            }
-            context.Wait(MessageReceiveAsync);
+            await Respond(context);
+            context.Done(message);
         }
     }
 }

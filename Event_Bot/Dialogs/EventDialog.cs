@@ -21,7 +21,7 @@ namespace Event_Bot.Dialogs
             }),
             new DefaultCase<string, IDialog<string>>((context, text) =>
             {
-                return Chain.ContinueWith(FormDialog.FromForm(EventRegistration.BuildForm, FormOptions.PromptInStart), AfterGreetingContinuationAsync);
+                return Chain.ContinueWith(FormDialog.FromForm(EventRegistration.BuildForm, FormOptions.PromptInStart), AfterEventContinuationAsync);
             }))
             .Unwrap()
             .PostToUser();
@@ -31,7 +31,15 @@ namespace Event_Bot.Dialogs
             var token = await item;
             var name = "User";
             context.UserData.TryGetValue<string>("Name", out name);
-            return Chain.Return($"Thank you for using the hotel bot {name}!!");
+            return Chain.Return($"Hi {name}, How can I help you today?");
+        }
+
+        private static async Task<IDialog<string>> AfterEventContinuationAsync(IBotContext context, IAwaitable<object> item)
+        {
+            var token = await item;
+            var name = "User";
+            context.UserData.TryGetValue<string>("Name", out name);
+            return Chain.Return($"Registration successful! Thank you for using the event bot {name}!!");
         }
     }
 }
