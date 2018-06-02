@@ -14,7 +14,7 @@ namespace Event_Bot.Dialogs
        
         public async Task StartAsync(IDialogContext context)
         {
-            await context.PostAsync("Hi, I'm SiThu Bot!");
+            await context.PostAsync("Hi, I'm Event Bot!");
             context.Wait(MessageReceiveAsync);
         }
 
