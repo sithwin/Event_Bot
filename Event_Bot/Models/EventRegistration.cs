@@ -27,10 +27,15 @@ namespace Event_Bot.Models
     [Serializable]
     public class EventRegistration
     {
+        [Pattern(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$")]
         public string Email { get; set; }
+
         public string FullName { get; set; }
         public ShirtSizeOptions? ShirtSize { get; set; }
         public List<FreeBieOptions> Freebies { get; set; }
+
+        [Prompt("Please enter collection date (dd/mm/yyyy)")]
+        [Pattern(@"^\d{1,2}/\d{1,2}/\d{4}$")]
         public string CollectionDate { get; set; }
 
         public static IForm<EventRegistration> BuildForm()
