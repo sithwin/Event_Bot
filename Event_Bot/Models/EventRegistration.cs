@@ -20,7 +20,7 @@ namespace Event_Bot.Models
     {
         WaterBottle,
         Towels,
-        SunGlass,
+        Sunglass,
         Hat
     }
 
@@ -30,7 +30,7 @@ namespace Event_Bot.Models
         [Pattern(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$")]
         public string Email { get; set; }
 
-        public string FullName { get; set; }
+        public string Name { get; set; }
         public ShirtSizeOptions? ShirtSize { get; set; }
         public List<FreeBieOptions> Freebies { get; set; }
 
@@ -42,7 +42,8 @@ namespace Event_Bot.Models
         {
             return new FormBuilder<EventRegistration>()
                 .Message("Welcome to the event registration bot!")
-                .Build();
+                .Build()
+                ;
         }
     }
 }

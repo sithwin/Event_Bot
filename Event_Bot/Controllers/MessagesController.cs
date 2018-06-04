@@ -1,8 +1,10 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Event_Bot.Dialogs;
+using Event_Bot.Models;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
@@ -19,7 +21,7 @@ namespace Event_Bot
         {
             if (activity.GetActivityType() == ActivityTypes.Message)
             {
-                await Conversation.SendAsync(activity, () => EventDialog.dialog);
+                await Conversation.SendAsync(activity, MakeLuidDialog);
             }
             else
             {
@@ -27,6 +29,11 @@ namespace Event_Bot
             }
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
+        }
+
+        private IDialog<object> MakeLuidDialog()
+        {
+            return Chain.From(() => new LuisDialog(EventRegistration.BuildForm));
         }
 
         private Activity HandleSystemMessage(Activity message)

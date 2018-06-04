@@ -29,6 +29,10 @@ namespace Event_Bot.Dialogs
                 await context.PostAsync("What is your name?");
                 context.UserData.SetValue<bool>("GetName", true);
             }
+            else
+            {
+                await context.PostAsync(string.Format("Hi {0}. How can I help you today?", userName));
+            }
         }
         
         private async Task MessageReceiveAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
